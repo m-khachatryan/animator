@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CSS3 Animation Control</title>
+    <style>
+        .box {
+            width:  200px;
+            height: 200px;
+            position: relative;
+            background: red;
+            display: inline-block;
+        }
+
+        .box img {
+            width: inherit;
+            height: inherit;
+        }
+
+    </style>
+</head>
+<body>
+
+<div class="box">
+    <img src="Minion_Stuart.png">
+</div>
+
+<div class="toolbar" style="float: right">
+    <button id="toggle">Play/Pause</button>
+    <input  id="range" type="range" min="-2" max="1" step="0.1">
+</div>
+<script src="../src/animator.js"></script>
+<script>
+    function ready() {
+        const box = document.querySelector('.box');
+        const options = {
+            name: 'animator',
+            // delay: '',
+            // playState: '',
+            // direction: '',
+            duration:  '3s',
+            // fillMode:  '',
+            iterationCount: 'infinite',
+            timingFunction: 'linear',
+            keyframes: {
+                '0%': {
+                    top: 0,
+                    left: 0,
+                    width: '200px',
+                    height: '200px',
+                    background: 'red',
+                    transform: 'rotate(0deg)'
+                },
+                '50%': {
+                    top: '250px',
+                    left: '200px',
+                    width: '180px',
+                    height: '180px',
+                    background: '#0b9882',
+                    transform: 'rotate(90deg)'
+                },
+                '100%': {
+                    top: '0',
+                    left: '500px',
+                    width: 0,
+                    height: 0,
+                    background: 'blue',
+                    transform: 'rotate(180deg)'
+                }
+            }
+        };
+
+        let el = new Animator(box, options);
+
+        const btn = document.getElementById('toggle');
+        const range = document.getElementById('range');
+
+        btn.addEventListener('click',  el.toggle.bind(el));
+
+        range.addEventListener('input', function(e){
+            el.seek(-this.value);
+        })
+    }
+
+    document.addEventListener("DOMContentLoaded", ready, false);
+</script>
+</body>
+</html>
